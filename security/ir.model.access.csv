@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ooshare_folder,ooshare.folder,model_ooshare_folder,base.group_system,1,1,1,1
+access_ooshare_link,ooshare.link,model_ooshare_link,base.group_user,1,1,1,1

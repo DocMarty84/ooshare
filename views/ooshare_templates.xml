@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="browse" name="Browse">
+    <t t-call="web.layout">
+        <t t-set="html_data"/>
+        <t t-set="head">
+            <link type="text/css" rel="stylesheet"
+                  href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+                  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+                  crossorigin="anonymous"/>
+        </t>
+        <div class="container">
+            <h1>Directory listing for '<span t-esc="doc"/>'</h1>
+            <a t-att-href="gallery">Gallery</a>
+            <hr/>
+            <ul>
+                <li><a t-esc="back['name']" t-att-href="back['url']"></a></li>
+                <t t-foreach="dirs" t-as="d">
+                    <li><a t-esc="d['name']" t-att-href="d['url']"></a></li>
+                </t>
+                <t t-foreach="files" t-as="f">
+                    <li><a t-esc="f['name']" t-att-href="f['url']"></a></li>
+                </t>
+            </ul>
+            <hr/>
+        </div>
+    </t>
+</template>
+
+<template id="gallery" name="Gallery">
+    <t t-call="web.layout">
+        <t t-set="html_data"/>
+        <t t-set="head">
+            <link type="text/css" rel="stylesheet"
+                  href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+                  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+                  crossorigin="anonymous"/>
+            <link type="text/css" rel="stylesheet"
+                  href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.12/css/lightgallery.min.css" />
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"/>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.12/js/lightgallery-all.js"/>
+        </t>
+
+        <div class="container">
+            <h1>Gallery for '<span t-esc="doc"/>'</h1>
+            <a t-att-href="browse">Browse</a>
+            <hr/>
+
+            <!-- Images thumbnails -->
+            <h2 t-if="imgs">Images</h2>
+            <div id="lg_img">
+                <t t-foreach="imgs" t-as="img">
+                    <a t-att-href="img['url']">
+                        <img t-att-src="img['url_thumb']" />
+                    </a>
+                </t>
+            </div>
+            <hr t-if="imgs"/>
+
+            <!-- Hidden video div -->
+            <t t-set="idx" t-value="0"/>
+            <t t-foreach="vids" t-as="vid">
+                <t t-set="idx" t-value="idx + 1"/>
+                <div style="display:none;" t-attf-id="video{{ str(idx) }}">
+                    <video class="lg-video-object lg-html5" controls="1" preload="none">
+                        <source t-att-src="vid['url']" t-att-type="vid['mime']"/>
+                            Your browser does not support HTML5 video.
+                    </video>
+                </div>
+            </t>
+
+            <!-- Videos thumbnails -->
+            <h2 t-if="vids">Videos</h2>
+            <div id="lg_vid">
+                <t t-set="idx" t-value="0"/>
+                <t t-foreach="vids" t-as="vid">
+                    <t t-set="idx" t-value="idx + 1"/>
+                    <span data-poster="/novid.jpg" t-att-data-sub-html="vid['name']" t-attf-data-html="#video{{ str(idx) }}" >
+                        <img src="/novid-thumb.jpg" />
+                    </span>
+                </t>
+            </div>
+            <hr t-if="vids"/>
+        </div>
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('#lg_img').lightGallery();
+                $('#lg_vid').lightGallery();
+            });
+        </script>
+    </t>
+</template>
+</odoo>

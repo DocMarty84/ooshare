@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ooshare_folder_view_form" model="ir.ui.view">
+        <field name="name">ooshare.folder.form</field>
+        <field name="model">ooshare.folder</field>
+        <field name="arch" type="xml">
+            <form string="Folder">
+                <sheet>
+                    <group>
+                        <field name="user_id"/>
+                        <field name="path"/>
+                        <field name="abspath"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="ooshare_folder_view_tree" model="ir.ui.view">
+        <field name="name">ooshare.folder.tree</field>
+        <field name="model">ooshare.folder</field>
+        <field name="arch" type="xml">
+            <tree string="Folders" editable="bottom">
+                <field name="user_id"/>
+                <field name="path"/>
+                <field name="abspath"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_folder" model="ir.actions.act_window">
+        <field name="name">Folders</field>
+        <field name="res_model">ooshare.folder</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Third Level Menu -->
+    <menuitem id="menu_action_folder" parent="menu_ooshare_config" action="action_folder" sequence="10"/>
+</odoo>

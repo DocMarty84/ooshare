@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ooshare_link_view_form" model="ir.ui.view">
+        <field name="name">ooshare.link.form</field>
+        <field name="model">ooshare.link</field>
+        <field name="arch" type="xml">
+            <form string="Download Link">
+                <sheet>
+                    <field name="access_token" invisible="1"/>
+                    <group>
+                        <field name="doc"/>
+                        <field name="url"/>
+                        <field name="expiration_date"/>
+                        <field name="min_delay"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="ooshare_link_view_tree" model="ir.ui.view">
+        <field name="name">ooshare.link.tree</field>
+        <field name="model">ooshare.link</field>
+        <field name="arch" type="xml">
+            <tree string="Download Links" decoration-danger="expired == True">
+                <field name="expired" invisible="1"/>
+                <field name="doc"/>
+                <field name="url"/>
+                <field name="expiration_date"/>
+                <field name="min_delay"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_link" model="ir.actions.act_window">
+        <field name="name">Download Links</field>
+        <field name="res_model">ooshare.link</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Third Level Menu -->
+    <menuitem id="menu_action_link" parent="menu_ooshare_download" action="action_link" sequence="10"/>
+</odoo>

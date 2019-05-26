@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Fist Level Menu -->
+    <menuitem name="Share" id="menu_ooshare_root" action="action_link" sequence="96"/>
+
+    <!-- Second Level Menu -->
+    <menuitem id="menu_ooshare_download" name="Download" parent="menu_ooshare_root" sequence="10"/>
+    <menuitem id="menu_ooshare_config" name="Configuration" parent="menu_ooshare_root" sequence="100"/>
+</odoo>
