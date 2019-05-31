@@ -16,7 +16,7 @@ class ShareFolder(models.Model):
     @api.depends("path")
     def _compute_folder_abs(self):
         for folder in self:
-            folder.abspath = os.path.abspath(folder.path)
+            folder.abspath = os.path.abspath(folder.path) if folder.path else ''
 
     @api.model
     def _authorized(self, path, user):
