@@ -35,10 +35,11 @@
                   href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
                   integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
                   crossorigin="anonymous"/>
-            <link type="text/css" rel="stylesheet"
-                  href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.12/css/lightgallery.min.css" />
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"/>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.12/js/lightgallery-all.js"/>
+
+            <!-- See the builder:  https://nanogallery2.nanostudio.org/builder.html -->
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"/>
+            <link type="text/css" rel="stylesheet" href="https://unpkg.com/nanogallery2@2.4.2/dist/css/nanogallery2.min.css" />
+            <script type="text/javascript" src="https://unpkg.com/nanogallery2@2.4.2/dist/jquery.nanogallery2.min.js"/>
         </t>
 
         <div class="container">
@@ -47,48 +48,38 @@
             <hr/>
 
             <!-- Images thumbnails -->
-            <h2 t-if="imgs">Images</h2>
-            <div id="lg_img">
-                <t t-foreach="imgs" t-as="img">
-                    <a t-att-href="img['url']">
-                        <img t-att-src="img['url_thumb']" />
-                    </a>
-                </t>
-            </div>
-            <hr t-if="imgs"/>
-
-            <!-- Hidden video div -->
-            <t t-set="idx" t-value="0"/>
-            <t t-foreach="vids" t-as="vid">
-                <t t-set="idx" t-value="idx + 1"/>
-                <div style="display:none;" t-attf-id="video{{ str(idx) }}">
-                    <video class="lg-video-object lg-html5" controls="1" preload="none">
-                        <source t-att-src="vid['url']" t-att-type="vid['mime']"/>
-                            Your browser does not support HTML5 video.
-                    </video>
-                </div>
+            <t t-if="imgs">
+                <h2>Images</h2>
+                    <div id="nano_img" t-attf-data-nanogallery2='{
+                        "thumbnailWidth": "auto",
+                        "thumbnailHeight": "200",
+                        "thumbnailLabel": {
+                            "display": false
+                        },
+                        "thumbnailAlignment": "center"
+                    }'>
+                        <t t-foreach="imgs" t-as="img">
+                            <a t-att-href="img['url']" t-att-data-ngthumb="img['url_thumb']" data-ngdesc="" t-esc="img['name']"></a>
+                        </t>
+                    </div>
+                <hr/>
             </t>
 
             <!-- Videos thumbnails -->
-            <h2 t-if="vids">Videos</h2>
-            <div id="lg_vid">
-                <t t-set="idx" t-value="0"/>
-                <t t-foreach="vids" t-as="vid">
-                    <t t-set="idx" t-value="idx + 1"/>
-                    <span data-poster="/novid.jpg" t-att-data-sub-html="vid['name']" t-attf-data-html="#video{{ str(idx) }}" >
-                        <img src="/novid-thumb.jpg" />
-                    </span>
-                </t>
-            </div>
-            <hr t-if="vids"/>
+            <t t-if="vids">
+                <h2>Videos</h2>
+                    <div id="nano_vid" t-attf-data-nanogallery2='{
+                        "thumbnailWidth": "auto",
+                        "thumbnailHeight": "200",
+                        "thumbnailAlignment": "center"
+                    }'>
+                        <t t-foreach="vids" t-as="vid">
+                            <a t-att-href="vid['url']" data-ngthumb="/novid-thumb.jpg" data-ngdesc="" t-esc="vid['name']"></a>
+                        </t>
+                    </div>
+                <hr/>
+            </t>
         </div>
-
-        <script type="text/javascript">
-            $(document).ready(function() {
-                $('#lg_img').lightGallery();
-                $('#lg_vid').lightGallery();
-            });
-        </script>
     </t>
 </template>
 </odoo>
