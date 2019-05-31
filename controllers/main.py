@@ -7,6 +7,7 @@ import os
 from tempfile import NamedTemporaryFile
 
 import filetype as ft
+from werkzeug.urls import url_fix
 from werkzeug.exceptions import Forbidden, abort
 
 from odoo import fields, http, tools
@@ -120,11 +121,15 @@ class ShareController(http.Controller):
                 [
                     {
                         "name": f.name,
-                        "url": "/ooshare/img?token={}&doc={}".format(
-                            kwargs["token"], os.path.join(doc, f.name)
+                        "url": url_fix(
+                            "/ooshare/img?token={}&doc={}".format(
+                                kwargs["token"], os.path.join(doc, f.name)
+                            )
                         ),
-                        "url_thumb": "/ooshare/img?token={}&doc={}&thumb=1".format(
-                            kwargs["token"], os.path.join(doc, f.name)
+                        "url_thumb": url_fix(
+                            "/ooshare/img?token={}&doc={}&thumb=1".format(
+                                kwargs["token"], os.path.join(doc, f.name)
+                            )
                         ),
                     }
                     for f in os.scandir(doc_abspath)
@@ -138,8 +143,10 @@ class ShareController(http.Controller):
                 [
                     {
                         "name": f.name,
-                        "url": "/ooshare/vid?token={}&doc={}".format(
-                            kwargs["token"], os.path.join(doc, f.name)
+                        "url": url_fix(
+                            "/ooshare/vid?token={}&doc={}".format(
+                                kwargs["token"], os.path.join(doc, f.name)
+                            )
                         ),
                         "mime": VID_EXT[os.path.splitext(f.name)[1][1:]],
                     }
