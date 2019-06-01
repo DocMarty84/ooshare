@@ -59,7 +59,19 @@ class ShareLink(models.Model):
     def _check_authorized(self):
         for link in self:
             if not self.env["ooshare.folder"]._authorized(link.doc, link.user_id):
-                raise ValidationError(_("You are not authorized to share folder %s") % (link.doc,))
+                raise ValidationError(
+                    _("You are not authorized to share folder %s. Allowed folders:\n%s")
+                    % (
+                        link.doc,
+                        "\n".join(
+                            self.env["ooshare.folder"]
+                            .sudo()
+                            .search([("user_id", "=", link.user_id.id)])
+                            .mapped("abspath")
+                        )
+                        or _("None"),
+                    )
+                )
 
     @api.depends("doc")
     def _compute_doc_abs(self):
