@@ -10,6 +10,9 @@
                     <group>
                         <field name="doc"/>
                         <field name="url"/>
+                        <field name="qr"
+                            widget="image"
+                            options="{'size': [300, 300]}"/>
                         <field name="expiration_date"/>
                         <field name="min_delay"/>
                     </group>

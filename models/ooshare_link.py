@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 
+import base64
 import os
 import uuid
 from datetime import datetime, timedelta
+from io import BytesIO
 
+import qrcode
 from werkzeug.urls import url_encode
 
 from odoo import _, api, fields, models
@@ -46,6 +49,7 @@ class ShareLink(models.Model):
         compute="_compute_url",
         help="Send this URL to your contacts so they will download the tracks.",
     )
+    qr = fields.Binary("QR Code", compute="_compute_qr", help="QR code pointing to the remote URL.")
     user_id = fields.Many2one(
         "res.users",
         string="User",
@@ -84,6 +88,14 @@ class ShareLink(models.Model):
         for link in self:
             params = {"token": link.access_token}
             link.url = "{}/ooshare/browse?{}".format(base_url, url_encode(params))
+
+    @api.depends("url")
+    def _compute_qr(self):
+        for remote in self:
+            img = qrcode.make(remote.url)
+            img_tmp = BytesIO()
+            img.save(img_tmp, format="PNG")
+            remote.qr = base64.b64encode(img_tmp.getvalue())
 
     def _compute_expired(self):
         for link in self:
