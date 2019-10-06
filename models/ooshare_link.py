@@ -31,18 +31,20 @@ class ShareLink(models.Model):
         "Security Token",
         index=True,
         default=lambda s: s._default_access_token(),
+        copy=False,
         help="Access token to access the files",
     )
     expiration_date = fields.Date(
         "Expiration Date",
         index=True,
         default=lambda s: s._default_expiration_date(),
+        copy=False,
         help="The link will be deactivated after this date.",
     )
     min_delay = fields.Integer(
         "Minimum Delay", default=5, help="Minimum delay in seconds between consecutive accesses."
     )
-    access_date = fields.Datetime("Last Access Date")
+    access_date = fields.Datetime("Last Access Date", copy=False)
     expired = fields.Boolean("Expired", compute="_compute_expired")
     url = fields.Char(
         "URL",
