@@ -171,7 +171,7 @@ class ShareController(http.Controller):
 
         # Generate thumbnail
         img = base64.b64encode(open(doc_abspath, "rb").read())
-        img_new = tools.image_resize_image(img, (None, 200))
+        img_new = tools.image_process(img, size=(None, 200))
         with NamedTemporaryFile(mode="wb") as img_new_tmp:
             img_new_tmp.write(base64.b64decode(img_new))
             img_new_tmp.flush()
