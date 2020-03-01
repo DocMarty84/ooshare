@@ -56,7 +56,7 @@ class ShareController(http.Controller):
         if os.path.isfile(doc_abspath):
             # Set a minimum delay between file access to avoid overload
             now = fields.Datetime.now()
-            if link.access_date and (now - link.access_date).seconds < link.min_delay:
+            if link.access_date and (now - link.access_date).total_seconds() < link.min_delay:
                 raise Forbidden("Too many requests received. Please try again in a few minutes.")
             link._update_access_date(now)
             return http.send_file(doc_abspath, as_attachment=True)
